@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageScreen extends StatefulWidget {
   const ImageScreen({super.key});
@@ -8,6 +10,21 @@ class ImageScreen extends StatefulWidget {
 }
 
 class _ImageScreenState extends State<ImageScreen> {
+  late XFile file;
+
+  Future _pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      setState(() {
+        file = image;
+      });
+    } on PlatformException catch (e) {
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +67,9 @@ class _ImageScreenState extends State<ImageScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _pickImage();
+        },
         tooltip: 'upload image',
         child: const Icon(Icons.add),
         backgroundColor: Colors.black,
