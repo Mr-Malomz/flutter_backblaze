@@ -12,20 +12,20 @@ class ImageScreen extends StatefulWidget {
 class _ImageScreenState extends State<ImageScreen> {
   late XFile file;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future _pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
-
-      setState(() {
-        file = image;
-      });
     } on PlatformException catch (e) {
       throw Exception(e);
     }
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
